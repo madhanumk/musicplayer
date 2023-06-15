@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Native Share Option</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+</head>
+<body>
+  <h2>Native Sharing</h2>
+  <button class="native-share-btn">Share This Page</button>
+
+  <script>
+    /**
+     * Use the device/browser's native share capabilities
+     * to share the current page and title
+    **/
+
+    function nativeShare() {
+      navigator.share({
+        title: document.title,
+        text: 'Check out this link',
+        url: location.href,
+      })
+        .then(() => console.log('Successful share'))
+        .catch((error) => console.log('Error sharing', error));
+    }
+
+    /**
+     * Hide share button if native share not supported
+    **/
+    if (!(navigator.share)) {
+      //Hide share button
+      $('.native-share-btn').hide();
+      // Add unsupported message
+      unsupportedMessage();
+
+    }
+
+    /**
+     * If the device is not supported, display a friendly message
+    **/
+    function unsupportedMessage() {
+      const message = document.createElement('p');
+      message.appendChild(document.createTextNode('Native sharing is not supported by your browser/device.'));
+      // Add button to DOM
+      document.body.appendChild(message);
+    }
+
+    //Share event Call
+    $(".native-share-btn").on('click', function (event) {
+      nativeShare();
+    });
+  </script>
+</body>
+</html>
